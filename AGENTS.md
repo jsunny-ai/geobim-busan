@@ -9,8 +9,8 @@ proof that the correct database is in use.
 
 - Before database, backend, Docker, migration, seed, restore, project-list, or
   borehole work, run `scripts/db-safety-check.ps1`.
-- The only approved local API is `http://127.0.0.1:8002`. Do not use
-  `localhost:8002`; an IPv6 `::1` listener can shadow the Docker IPv4 port.
+- The only approved local API is `http://127.0.0.1:9001`. Do not use
+  `localhost:9001`; an IPv6 `::1` listener can shadow the Docker IPv4 port.
 - The only approved application DB is the `postgres` service in the
   `geobim-stratum` Docker Compose project.
 - Never use host/WSL `localhost:5432` for this application.

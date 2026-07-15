@@ -21,12 +21,12 @@ start "GeoBIM supplement :5175"  cmd /k "cd /d "%ROOT%sites\supplement"  && npm 
 echo Waiting 8 seconds for servers to start...
 timeout /t 8 /nobreak > nul
 
-start "" "http://localhost:5180"
-start "" "http://localhost:5181"
-start "" "http://localhost:5182"
-start "" "http://localhost:5183"
-start "" "http://localhost:5184"
-start "" "http://localhost:5185"
+start "" "http://localhost:6170"
+start "" "http://localhost:6171"
+start "" "http://localhost:6172"
+start "" "http://localhost:6173"
+start "" "http://localhost:6174"
+start "" "http://localhost:6175"
 
 echo Done.
 pause

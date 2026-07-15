@@ -5,5 +5,5 @@ console.error("CONFIG LOADING - react type:", typeof react)
 
 export default defineConfig({
   plugins: [react()],
-  server: { port: 5186, strictPort: true },
+  server: { port: 6176, strictPort: true },
 })

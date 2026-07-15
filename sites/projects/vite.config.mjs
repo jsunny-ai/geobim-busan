@@ -25,5 +25,5 @@ export default defineConfig({
       "@shared": resolve(__dirname, "../../shared"),
     },
   },
-  server: { port: 5181, strictPort: true },
+  server: { port: 6171, strictPort: true },
 })

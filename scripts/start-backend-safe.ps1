@@ -10,7 +10,7 @@ if ($LASTEXITCODE -ne 0) {
 $ready = $false
 for ($attempt = 0; $attempt -lt 30; $attempt++) {
     try {
-        $health = Invoke-RestMethod "http://127.0.0.1:8002/health/db" -TimeoutSec 3
+        $health = Invoke-RestMethod "http://127.0.0.1:9001/health/db" -TimeoutSec 3
         if ($health.status -eq "ok") {
             $ready = $true
             break

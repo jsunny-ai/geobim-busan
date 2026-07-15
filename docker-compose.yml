@@ -7,8 +7,8 @@ services:
     restart: unless-stopped
     ports:
       # 5432 is also claimed by WSL port forwarding on some developer PCs.
-      # Use 5434 on the host so the backend cannot silently reach a stale DB.
-      - "${POSTGRES_PORT:-5434}:5432"
+      # Use 6433 on the host so the backend cannot silently reach a stale DB.
+      - "${POSTGRES_PORT:-6433}:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-geobim}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-geobim_dev_only}
@@ -25,7 +25,7 @@ services:
     image: redis:7-alpine
     restart: unless-stopped
     ports:
-      - "${REDIS_PORT:-6380}:6380"
+      - "${REDIS_PORT:-7379}:7379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s

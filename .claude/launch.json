@@ -6,35 +6,35 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
       "cwd": "sites/auth",
-      "port": 5180
+      "port": 6170
     },
     {
       "name": "site-projects",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
       "cwd": "sites/projects",
-      "port": 5181
+      "port": 6171
     },
     {
       "name": "site-map",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
       "cwd": "sites/map",
-      "port": 5182
+      "port": 6172
     },
     {
       "name": "site-viewer-3d",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
       "cwd": "sites/viewer-3d",
-      "port": 5183
+      "port": 6173
     },
     {
       "name": "site-upload",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
       "cwd": "sites/upload",
-      "port": 5184
+      "port": 6174
     }
   ]
 }

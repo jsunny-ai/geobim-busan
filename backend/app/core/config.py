@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     db_sentinel_project_ids: str = ""
 
     # ----- Redis / Celery -----
-    redis_url: str = "redis://localhost:6380/0"
+    redis_url: str = "redis://localhost:7379/0"
     celery_task_always_eager: bool = False
 
     # ----- PDF Convert -----
@@ -58,12 +58,12 @@ class Settings(BaseSettings):
     # ----- CORS -----
     # 콤마 구분 문자열로 받은 뒤 cors_origins_list 프로퍼티로 분해
     cors_origins: str = (
-        "http://localhost:5180,"
-        "http://localhost:5181,"
-        "http://localhost:5182,"
-        "http://localhost:5183,"
-        "http://localhost:5184,"
-        "http://localhost:5185"
+        "http://localhost:6170,"
+        "http://localhost:6171,"
+        "http://localhost:6172,"
+        "http://localhost:6173,"
+        "http://localhost:6174,"
+        "http://localhost:6175"
     )
 
     # ----- V-World 타일 -----
