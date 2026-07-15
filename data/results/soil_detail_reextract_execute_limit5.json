@@ -1,0 +1,123 @@
+{
+  "started_at": "2026-07-10T00:16:57.691671",
+  "execute": true,
+  "storage": "/pdf_storage",
+  "regions": [
+    "경기도 수원시",
+    "서울특별시"
+  ],
+  "total_files": 5,
+  "successes": [
+    {
+      "region": "경기도 수원시",
+      "pdf_path": "/pdf_storage/경기도 수원시/수원시권선구/page10_project10_report.pdf",
+      "source_file": "C:\\antigravity\\#1_1_PDF_Download\\PDF_Storage\\경기도 수원시\\수원시권선구\\page10_project10_report.pdf",
+      "project_id": 5127,
+      "row_count": 10,
+      "soil_detail_counts": {
+        "매립토": 3,
+        "퇴적토": 3,
+        "풍화암": 3,
+        "풍화토": 1
+      },
+      "persisted": {
+        "borehole_count": 3,
+        "created_borehole_count": 0,
+        "linked_borehole_count": 0,
+        "replaced_borehole_count": 3,
+        "duplicate_count": 0,
+        "stratum_count": 10,
+        "groundwater_observation_count": 0
+      }
+    },
+    {
+      "region": "경기도 수원시",
+      "pdf_path": "/pdf_storage/경기도 수원시/수원시권선구/page10_project11_report.pdf",
+      "source_file": "C:\\antigravity\\#1_1_PDF_Download\\PDF_Storage\\경기도 수원시\\수원시권선구\\page10_project11_report.pdf",
+      "project_id": 5128,
+      "row_count": 18,
+      "soil_detail_counts": {
+        "매립토": 6,
+        "풍화토": 6,
+        "풍화암": 6
+      },
+      "persisted": {
+        "borehole_count": 6,
+        "created_borehole_count": 0,
+        "linked_borehole_count": 0,
+        "replaced_borehole_count": 6,
+        "duplicate_count": 0,
+        "stratum_count": 18,
+        "groundwater_observation_count": 0
+      }
+    },
+    {
+      "region": "경기도 수원시",
+      "pdf_path": "/pdf_storage/경기도 수원시/수원시권선구/page10_project12_report.pdf",
+      "source_file": "C:\\antigravity\\#1_1_PDF_Download\\PDF_Storage\\경기도 수원시\\수원시권선구\\page10_project12_report.pdf",
+      "project_id": 5128,
+      "row_count": 15,
+      "soil_detail_counts": {
+        "매립토": 5,
+        "풍화토": 5,
+        "풍화암": 5
+      },
+      "persisted": {
+        "borehole_count": 5,
+        "created_borehole_count": 0,
+        "linked_borehole_count": 0,
+        "replaced_borehole_count": 5,
+        "duplicate_count": 0,
+        "stratum_count": 15,
+        "groundwater_observation_count": 0
+      }
+    },
+    {
+      "region": "경기도 수원시",
+      "pdf_path": "/pdf_storage/경기도 수원시/수원시권선구/page10_project13_report.pdf",
+      "source_file": "C:\\antigravity\\#1_1_PDF_Download\\PDF_Storage\\경기도 수원시\\수원시권선구\\page10_project13_report.pdf",
+      "project_id": 5129,
+      "row_count": 84,
+      "soil_detail_counts": {
+        "매립토": 17,
+        "퇴적토": 17,
+        "풍화토": 17,
+        "풍화암": 16,
+        "연암": 17
+      },
+      "persisted": {
+        "borehole_count": 17,
+        "created_borehole_count": 0,
+        "linked_borehole_count": 0,
+        "replaced_borehole_count": 17,
+        "duplicate_count": 0,
+        "stratum_count": 84,
+        "groundwater_observation_count": 0
+      }
+    },
+    {
+      "region": "경기도 수원시",
+      "pdf_path": "/pdf_storage/경기도 수원시/수원시권선구/page10_project14_report.pdf",
+      "source_file": "C:\\antigravity\\#1_1_PDF_Download\\PDF_Storage\\경기도 수원시\\수원시권선구\\page10_project14_report.pdf",
+      "project_id": 5130,
+      "row_count": 3,
+      "soil_detail_counts": {
+        "매립토": 1,
+        "풍화토": 1,
+        "풍화암": 1
+      },
+      "persisted": {
+        "borehole_count": 1,
+        "created_borehole_count": 0,
+        "linked_borehole_count": 0,
+        "replaced_borehole_count": 1,
+        "duplicate_count": 0,
+        "stratum_count": 3,
+        "groundwater_observation_count": 0
+      }
+    }
+  ],
+  "skipped": [],
+  "failures": [],
+  "finished_at": "2026-07-10T00:17:04.709523"
+}
