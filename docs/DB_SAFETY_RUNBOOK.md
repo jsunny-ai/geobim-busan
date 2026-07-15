@@ -2,7 +2,7 @@
 
 ## Canonical local stack
 
-- Frontend API URL: `http://127.0.0.1:8001` (`localhost` 금지: IPv6 shadow 방지)
+- Frontend API URL: `http://127.0.0.1:8002` (`localhost` 금지: IPv6 shadow 방지)
 - Backend: `geobim-stratum-backend-1`
 - PostgreSQL: `geobim-stratum-postgres-1`
 - Internal backend DB host: `postgres:5432`
@@ -39,7 +39,7 @@ merges, schema repair, or destructive maintenance.
 
 ## Empty-screen diagnosis order
 
-1. Check `http://127.0.0.1:8001/health/db`.
+1. Check `http://127.0.0.1:8002/health/db`.
 2. Run `scripts/db-safety-check.ps1`.
 3. Inspect browser API URL and response status.
 4. Check API filters such as `has_bbox`.

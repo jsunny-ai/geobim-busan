@@ -4,19 +4,19 @@ function localSiteUrl(port: number) {
 }
 
 function localApiUrl() {
-  if (typeof window === "undefined") return "http://127.0.0.1:8001"
+  if (typeof window === "undefined") return "http://127.0.0.1:8002"
   const hostname = window.location.hostname === "localhost"
     ? "127.0.0.1"
     : window.location.hostname
-  return `${window.location.protocol}//${hostname}:8001`
+  return `${window.location.protocol}//${hostname}:8002`
 }
 
-export const AUTH_URL = import.meta.env.VITE_AUTH_URL ?? localSiteUrl(5170)
-export const PROJECTS_URL = import.meta.env.VITE_PROJECTS_URL ?? localSiteUrl(5171)
-export const MAP_URL = import.meta.env.VITE_MAP_URL ?? localSiteUrl(5172)
-export const VIEWER_3D_URL = import.meta.env.VITE_VIEWER_3D_URL ?? localSiteUrl(5173)
-export const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL ?? localSiteUrl(5174)
-export const SUPPLEMENT_URL = import.meta.env.VITE_SUPPLEMENT_URL ?? localSiteUrl(5175)
+export const AUTH_URL = import.meta.env.VITE_AUTH_URL ?? localSiteUrl(5180)
+export const PROJECTS_URL = import.meta.env.VITE_PROJECTS_URL ?? localSiteUrl(5181)
+export const MAP_URL = import.meta.env.VITE_MAP_URL ?? localSiteUrl(5182)
+export const VIEWER_3D_URL = import.meta.env.VITE_VIEWER_3D_URL ?? localSiteUrl(5183)
+export const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL ?? localSiteUrl(5184)
+export const SUPPLEMENT_URL = import.meta.env.VITE_SUPPLEMENT_URL ?? localSiteUrl(5185)
 export const API_URL = import.meta.env.VITE_API_URL ?? localApiUrl()
 
 export function apiUrl(path: string) {

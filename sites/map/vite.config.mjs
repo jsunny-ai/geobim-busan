@@ -28,14 +28,14 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5172,
+    port: 5182,
     strictPort: true,
     fs: {
       strict: false,
     },
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:8001",
+        target: "http://127.0.0.1:8002",
         changeOrigin: true,
       },
     },

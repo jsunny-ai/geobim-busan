@@ -6,8 +6,8 @@ For every task involving the database, backend startup, Docker, migrations,
 seeds, restore, project lists, or borehole counts:
 
 1. Run `powershell -ExecutionPolicy Bypass -File scripts/db-safety-check.ps1`.
-2. The only approved local API is `http://127.0.0.1:8001`. Never substitute
-   `localhost:8001`; an IPv6 `::1` listener can resolve to a different backend.
+2. The only approved local API is `http://127.0.0.1:8002`. Never substitute
+   `localhost:8002`; an IPv6 `::1` listener can resolve to a different backend.
 3. The only approved PostgreSQL is the `postgres` service inside the
    `geobim-stratum` Docker Compose project.
 4. Never connect this application to host/WSL `localhost:5432`.
