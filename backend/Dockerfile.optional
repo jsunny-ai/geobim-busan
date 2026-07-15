@@ -1,0 +1,33 @@
+# ============================================================================
+# Dockerfile.optional — 향후 Linux 서버 배포 검토용 (Phase 1 에서는 미사용)
+# ----------------------------------------------------------------------------
+# 본 프로젝트는 pyhwpx (한컴오피스 COM) 의존성 때문에 Windows 호스트에서
+# 직접 실행하는 것이 원칙이며, 이 Dockerfile 은 빌드/실행되지 않는다.
+#
+# Phase 2 이후 HWPX 파싱을 별도 마이크로서비스(Windows)로 분리하고
+# 본체는 Linux 컨테이너로 옮기는 경우에 대비한 참고용 스켈레톤.
+# ============================================================================
+
+FROM python:3.11-slim
+
+# 시스템 의존성 (PostGIS 클라이언트, PyMuPDF 빌드 의존성)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libpq-dev \
+        gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# uv 설치
+RUN pip install --no-cache-dir uv
+
+WORKDIR /app
+
+COPY pyproject.toml ./
+RUN uv sync --no-dev
+
+COPY app ./app
+COPY alembic.ini ./
+COPY alembic ./alembic
+
+EXPOSE 8000
+
+CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

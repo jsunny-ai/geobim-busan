@@ -1,0 +1,28 @@
+name: DB Wiki drift check
+
+on:
+  pull_request:
+    paths:
+      - "backend/app/models/**"
+      - "backend/alembic/versions/**"
+      - "backend/scripts/generate_db_wiki.py"
+      - "docs/db-wiki/**"
+  push:
+    paths:
+      - "backend/app/models/**"
+      - "backend/alembic/versions/**"
+      - "backend/scripts/generate_db_wiki.py"
+      - "docs/db-wiki/**"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install schema documentation dependencies
+        run: pip install "sqlalchemy>=2.0" "geoalchemy2>=0.15"
+      - name: Check generated DB Wiki
+        run: python backend/scripts/generate_db_wiki.py --check

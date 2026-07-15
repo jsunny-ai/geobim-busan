@@ -1,0 +1,116 @@
+# =============================================================================
+# GeoBIM Stratum — 운영 배포용 Docker Compose
+#
+# 구성:
+#   postgres  — PostGIS 16
+#   redis     — Celery 브로커 + 결과 백엔드
+#   backend   — FastAPI + Alembic (Dockerfile 빌드)
+#   worker    — Celery PDF 추출 워커 (같은 이미지)
+#
+# 사용:
+#   cp .env.production.example .env.production
+#   # .env.production 값 채우기
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# 참고:
+#   - 프론트엔드는 Vite 빌드 결과를 Nginx 등으로 별도 서빙
+#   - pyhwpx 는 Windows COM 의존 → worker 컨테이너에서 제외 (Phase 2 에서 결정)
+# =============================================================================
+
+services:
+  # ── PostgreSQL (PostGIS) ──────────────────────────────────────────────────
+  postgres:
+    image: postgis/postgis:16-3.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    # 운영 환경: 포트를 외부에 직접 노출하지 않고 내부 네트워크만 사용
+    # 필요 시 아래 주석 해제
+    # ports:
+    #   - "5432:5432"
+
+  # ── Redis ─────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── FastAPI Backend ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL_SYNC: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379/0
+      SECRET_KEY: ${SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      JWT_EXPIRE_MINUTES: ${JWT_EXPIRE_MINUTES:-60}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      ENVIRONMENT: production
+      DEBUG: "false"
+      COASTAL_LAND_GEOJSON_PATH: /coastal/busan_land_epsg4326.geojson
+      COASTAL_LAND_SOURCE: KHOA
+      COASTAL_LAND_SOURCE_DATE: "2025-12-31"
+      COASTAL_LAND_VERTICAL_DATUM: approx_highest_high_water
+      COASTAL_LAND_SIMPLIFY_TOLERANCE_DEG: "0.000005"
+    volumes:
+      - ./backend/data/coastal:/coastal:ro
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ── Celery Worker (PDF 추출) ───────────────────────────────────────────────
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    restart: unless-stopped
+    command: celery -A app.workers.pdf_tasks worker --loglevel=info --concurrency=2
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL_SYNC: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379/0
+      SECRET_KEY: ${SECRET_KEY}
+      ENVIRONMENT: production
+      DEBUG: "false"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:

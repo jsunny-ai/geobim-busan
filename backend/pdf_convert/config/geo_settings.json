@@ -1,0 +1,26 @@
+{
+  "default_region": "suwon",
+  "regions": {
+    "suwon": {
+      "name": "경기도 수원시",
+      "center": { "lon": 127.028, "lat": 37.263 },
+      "zones": {
+        "hard": {
+          "description": "수원시 실제 행정구역 내부",
+          "lon_min": 126.920, "lon_max": 127.085,
+          "lat_min": 37.225, "lat_max": 37.320
+        },
+        "soft": {
+          "description": "행정구역 + 광역 버퍼 (경계 및 인접 지자체 프로젝트 수용)",
+          "lon_min": 126.850, "lon_max": 127.185,
+          "lat_min": 37.150, "lat_max": 37.400
+        },
+        "healing": {
+          "description": "Self-Healing 시도 범위 (광역/수도권 남부)",
+          "lon_min": 126.700, "lon_max": 127.250,
+          "lat_min": 37.100, "lat_max": 37.450
+        }
+      }
+    }
+  }
+}

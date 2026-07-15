@@ -1,0 +1,94 @@
+# Local backend stack for machines without host Python/uv.
+#
+# Usage from C:\antigravity\GeoBIM\geobim-stratum:
+#   docker compose -f docker-compose.backend.yml up --build
+#
+# The upload site can keep running on the host at localhost:5174.
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: geobim
+      POSTGRES_PASSWORD: geobim_dev_only
+      POSTGRES_DB: geobim
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geobim -d geobim"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://geobim:geobim_dev_only@postgres:5432/geobim
+      DATABASE_URL_SYNC: postgresql+psycopg2://geobim:geobim_dev_only@postgres:5432/geobim
+      DB_SENTINEL_PROJECT_IDS: "9708,9718"
+      REDIS_URL: redis://redis:6379/0
+      CELERY_TASK_ALWAYS_EAGER: "true"
+      SECRET_KEY: change-me-in-production-min-32-chars
+      JWT_ALGORITHM: HS256
+      JWT_EXPIRE_MINUTES: "60"
+      CORS_ORIGINS: http://localhost:5170,http://localhost:5171,http://localhost:5172,http://localhost:5173,http://localhost:5174
+      PDF_CONVERT_DATA_DIR: pdf_convert
+      PDF_ODL_ENABLED: "true"
+      PDF_ODL_OUTPUT_DIR: pdf_convert/data/odl
+      PDF_ODL_TIMEOUT_SECONDS: "60"
+      PDF_ODL_HYBRID_ENABLED: "true"
+      PDF_ODL_HYBRID_URL: http://host.docker.internal:5002
+      PDF_ODL_HYBRID_MODE: full
+      PDF_MANUAL_ODL_ENABLED: "false"
+      PDF_SOURCE_WINDOWS_ROOT: "C:\\antigravity\\#1_1_PDF_Download\\PDF_Storage"
+      PDF_SOURCE_MOUNT_DIR: /pdf_storage
+      PDF_BOX_OCR_ENABLED: "true"
+      PDF_OCR_PROVIDER: tesseract
+      PDF_BOX_OCR_LANG: kor+eng
+      PDF_BOX_OCR_SCALE: "2.0"
+      ENVIRONMENT: development
+      DEBUG: "true"
+      COASTAL_LAND_GEOJSON_PATH: /coastal/busan_land_epsg4326.geojson
+      COASTAL_LAND_SOURCE: KHOA
+      COASTAL_LAND_SOURCE_DATE: "2025-12-31"
+      COASTAL_LAND_VERTICAL_DATUM: approx_highest_high_water
+      COASTAL_LAND_SIMPLIFY_TOLERANCE_DEG: "0.000005"
+    ports:
+      # 8000 is occupied by a stale WSL-forwarded host backend on some PCs.
+      - "8001:8000"
+    volumes:
+      - pdf_convert_data:/app/pdf_convert/data
+      - type: bind
+        source: "C:/antigravity/#1_1_PDF_Download/PDF_Storage"
+        target: /pdf_storage
+        read_only: true
+      - ./backend/data/coastal:/coastal:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health/db || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  postgres_data:
+  pdf_convert_data:

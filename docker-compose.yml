@@ -1,0 +1,36 @@
+# 백엔드/프론트엔드는 호스트에서 직접 실행한다 (pyhwpx → 한컴오피스 COM 접근 필요).
+# 이 compose 파일은 PostGIS와 Redis만 컨테이너로 띄운다.
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    restart: unless-stopped
+    ports:
+      # 5432 is also claimed by WSL port forwarding on some developer PCs.
+      # Use 5433 on the host so the backend cannot silently reach a stale DB.
+      - "${POSTGRES_PORT:-5433}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-geobim}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-geobim_dev_only}
+      POSTGRES_DB: ${POSTGRES_DB:-geobim}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-geobim} -d ${POSTGRES_DB:-geobim}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

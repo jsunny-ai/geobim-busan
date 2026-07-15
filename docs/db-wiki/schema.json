@@ -1,0 +1,2223 @@
+{
+  "schema_version": 1,
+  "source": "backend/app/models/__init__.py:Base.metadata",
+  "table_count": 14,
+  "tables": [
+    {
+      "name": "borehole_revisions",
+      "description": "시추공 수정 이력",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "borehole_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "payload",
+          "type": "JSON",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "dict",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "reason",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "edited_by_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "restored_from",
+          "type": "INTEGER",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_borehole_revisions_borehole_id",
+          "unique": false,
+          "columns": [
+            "borehole_id"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "boreholes",
+      "description": "시추공 위치·표고·원본 출처",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "project_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "projects.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "location",
+          "type": "geography(POINT,4326)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "WGS84 경도·위도 PostGIS POINT (SRID 4326)"
+        },
+        {
+          "name": "elevation",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "해수면 기준 시추공 표고(m)"
+        },
+        {
+          "name": "source_crs",
+          "type": "VARCHAR(20)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "원본 평면좌표계 EPSG 코드"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(500)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "원본 파일 또는 추출 작업의 파일 경로"
+        },
+        {
+          "name": "is_supplementary",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "False",
+          "foreign_keys": [],
+          "description": "프로젝트 생성 후 추가 등록된 자료 여부"
+        },
+        {
+          "name": "data_origin",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "public",
+          "foreign_keys": [],
+          "description": "public, user_upload, manual_input, test"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_boreholes_location",
+          "unique": false,
+          "columns": [
+            "location"
+          ]
+        },
+        {
+          "name": "ix_boreholes_data_origin",
+          "unique": false,
+          "columns": [
+            "data_origin"
+          ]
+        },
+        {
+          "name": "ix_boreholes_name",
+          "unique": false,
+          "columns": [
+            "name"
+          ]
+        },
+        {
+          "name": "ix_boreholes_project_id",
+          "unique": false,
+          "columns": [
+            "project_id"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "groundwater_observations",
+      "description": "시추공별 지하수위 관측 이력과 추출 계보",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "borehole_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "extraction_job_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "pdf_extraction_jobs.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "observation_key",
+          "type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "업로드 재시도 중복 방지용 관측 고유키"
+        },
+        {
+          "name": "depth_bgl_m",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "지표면(GL) 아래 지하수위 깊이(m, 아래 방향 양수)"
+        },
+        {
+          "name": "head_elevation_m",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "해수면(EL) 기준 지하수 수두 표고(m)"
+        },
+        {
+          "name": "observed_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "reference_datum",
+          "type": "VARCHAR(10)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "원본 기준면: GL, EL 또는 GL+EL"
+        },
+        {
+          "name": "raw_value",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "raw_text",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "source_kind",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "pdf",
+          "foreign_keys": [],
+          "description": "pdf, csv, legacy_raw_text"
+        },
+        {
+          "name": "source_page",
+          "type": "INTEGER",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "source_bbox",
+          "type": "JSON",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "confidence",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "review_status",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "auto",
+          "foreign_keys": [],
+          "description": "auto, confirmed, needs_review, rejected"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_groundwater_observations_borehole_id",
+          "unique": false,
+          "columns": [
+            "borehole_id"
+          ]
+        },
+        {
+          "name": "ix_groundwater_observations_extraction_job_id",
+          "unique": false,
+          "columns": [
+            "extraction_job_id"
+          ]
+        },
+        {
+          "name": "ix_groundwater_observations_review_status",
+          "unique": false,
+          "columns": [
+            "review_status"
+          ]
+        }
+      ],
+      "unique_constraints": [
+        [
+          "observation_key"
+        ]
+      ]
+    },
+    {
+      "name": "pdf_extraction_jobs",
+      "description": "PDF·CSV 추출 및 저장 작업 이력",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "project_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "projects.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "file_path",
+          "type": "VARCHAR(500)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(15)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "ExtractionJobStatus.PENDING",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "template_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "pdf_templates.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "result",
+          "type": "JSON",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "추출 매핑·이슈·저장 결과 JSON"
+        },
+        {
+          "name": "error",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "celery_task_id",
+          "type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "is_supplementary",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "False",
+          "foreign_keys": [],
+          "description": "기존 프로젝트에 신규 자료로 추가하는 작업 여부"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_pdf_extraction_jobs_project_id",
+          "unique": false,
+          "columns": [
+            "project_id"
+          ]
+        },
+        {
+          "name": "ix_pdf_extraction_jobs_status",
+          "unique": false,
+          "columns": [
+            "status"
+          ]
+        },
+        {
+          "name": "ix_pdf_extraction_jobs_template_id",
+          "unique": false,
+          "columns": [
+            "template_id"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "pdf_templates",
+      "description": "PDF 영역 추출 템플릿",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "owner_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "region",
+          "type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "box_definitions",
+          "type": "JSON",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "dict",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "match_keywords",
+          "type": "JSON",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "sample_pdf",
+          "type": "VARCHAR(500)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_pdf_templates_name",
+          "unique": false,
+          "columns": [
+            "name"
+          ]
+        },
+        {
+          "name": "ix_pdf_templates_owner_id",
+          "unique": false,
+          "columns": [
+            "owner_id"
+          ]
+        },
+        {
+          "name": "ix_pdf_templates_region",
+          "unique": false,
+          "columns": [
+            "region"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "project_borehole_links",
+      "description": "프로젝트와 시추공의 역할·등록 작업 연결",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "project_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "projects.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "borehole_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "project_role",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "existing",
+          "foreign_keys": [],
+          "description": "existing, new, duplicate_linked, excluded"
+        },
+        {
+          "name": "linked_reason",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "migrated",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "registered_from_job_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "pdf_extraction_jobs.id"
+          ],
+          "description": "시추공을 등록한 추출 작업"
+        },
+        {
+          "name": "registered_by_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_project_borehole_links_borehole_id",
+          "unique": false,
+          "columns": [
+            "borehole_id"
+          ]
+        },
+        {
+          "name": "ix_project_borehole_links_linked_reason",
+          "unique": false,
+          "columns": [
+            "linked_reason"
+          ]
+        },
+        {
+          "name": "ix_project_borehole_links_project_id",
+          "unique": false,
+          "columns": [
+            "project_id"
+          ]
+        },
+        {
+          "name": "ix_project_borehole_links_project_role",
+          "unique": false,
+          "columns": [
+            "project_role"
+          ]
+        },
+        {
+          "name": "ix_project_borehole_links_registered_from_job_id",
+          "unique": false,
+          "columns": [
+            "registered_from_job_id"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "project_borehole_overrides",
+      "description": "공공 원본을 보존하면서 프로젝트별로 적용하는 수정안",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "project_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "projects.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "source_borehole_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "draft",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "data",
+          "type": "JSON",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "dict",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "submitted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "approved_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "approved_by_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_project_borehole_overrides_project_id",
+          "unique": false,
+          "columns": [
+            "project_id"
+          ]
+        },
+        {
+          "name": "ix_project_borehole_overrides_source_borehole_id",
+          "unique": false,
+          "columns": [
+            "source_borehole_id"
+          ]
+        },
+        {
+          "name": "ix_project_borehole_overrides_status",
+          "unique": false,
+          "columns": [
+            "status"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "project_members",
+      "description": "프로젝트별 사용자 권한",
+      "columns": [
+        {
+          "name": "project_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [
+            "projects.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "role",
+          "type": "VARCHAR(6)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "ProjectMemberRole.VIEWER",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [],
+      "unique_constraints": []
+    },
+    {
+      "name": "project_virtual_borehole_revisions",
+      "description": "가상 시추공 수정 이력",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "virtual_borehole_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "project_virtual_boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "snapshot",
+          "type": "JSON",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "change_reason",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "changed_by_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_project_virtual_borehole_revisions_virtual_borehole_id",
+          "unique": false,
+          "columns": [
+            "virtual_borehole_id"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "project_virtual_borehole_strata",
+      "description": "가상 시추공의 지층 구간",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "virtual_borehole_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "project_virtual_boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "sequence",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "depth_top",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "depth_bottom",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "soil_type",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "strata_group",
+          "type": "VARCHAR(30)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "confidence",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "medium",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "note",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_project_virtual_borehole_strata_soil_type",
+          "unique": false,
+          "columns": [
+            "soil_type"
+          ]
+        },
+        {
+          "name": "ix_project_virtual_borehole_strata_strata_group",
+          "unique": false,
+          "columns": [
+            "strata_group"
+          ]
+        },
+        {
+          "name": "ix_project_virtual_borehole_strata_virtual_borehole_id",
+          "unique": false,
+          "columns": [
+            "virtual_borehole_id"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "project_virtual_boreholes",
+      "description": "프로젝트에서 생성한 가상 시추공",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "project_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "projects.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "location",
+          "type": "geography(POINT,4326)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "elevation",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "total_depth",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "source_borehole_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "source_snapshot",
+          "type": "JSON",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "draft",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "model_enabled",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": "False",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "constraint_mode",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "hard",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "influence_weight",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "1.0",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "influence_radius_m",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "purpose",
+          "type": "VARCHAR(200)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "interpretation_note",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "version",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "1",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_by_id",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_project_virtual_boreholes_location",
+          "unique": false,
+          "columns": [
+            "location"
+          ]
+        },
+        {
+          "name": "ix_project_virtual_boreholes_model_enabled",
+          "unique": false,
+          "columns": [
+            "model_enabled"
+          ]
+        },
+        {
+          "name": "ix_project_virtual_boreholes_name",
+          "unique": false,
+          "columns": [
+            "name"
+          ]
+        },
+        {
+          "name": "ix_project_virtual_boreholes_project_id",
+          "unique": false,
+          "columns": [
+            "project_id"
+          ]
+        },
+        {
+          "name": "ix_project_virtual_boreholes_source_borehole_id",
+          "unique": false,
+          "columns": [
+            "source_borehole_id"
+          ]
+        },
+        {
+          "name": "ix_project_virtual_boreholes_status",
+          "unique": false,
+          "columns": [
+            "status"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "projects",
+      "description": "시추 데이터 작업 단위와 지도 선택 영역",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "owner_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "users.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "region",
+          "type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "source_crs",
+          "type": "VARCHAR(20)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "bbox",
+          "type": "JSON",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_projects_name",
+          "unique": false,
+          "columns": [
+            "name"
+          ]
+        },
+        {
+          "name": "ix_projects_owner_id",
+          "unique": false,
+          "columns": [
+            "owner_id"
+          ]
+        },
+        {
+          "name": "ix_projects_region",
+          "unique": false,
+          "columns": [
+            "region"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "strata",
+      "description": "시추공별 심도 구간과 지층 분류",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "borehole_id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [
+            "boreholes.id"
+          ],
+          "description": null
+        },
+        {
+          "name": "depth_top",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "지표면(GL) 기준 지층 상단 심도(m, 아래 방향 양수)"
+        },
+        {
+          "name": "depth_bottom",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "지표면(GL) 기준 지층 하단 심도(m, 아래 방향 양수)"
+        },
+        {
+          "name": "soil_type",
+          "type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": "추출된 지층명"
+        },
+        {
+          "name": "raw_text",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": "원본 추출 행과 레거시 메타데이터 보존 문자열"
+        },
+        {
+          "name": "n_value",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "uscs_code",
+          "type": "VARCHAR(20)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(500)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_strata_borehole_id",
+          "unique": false,
+          "columns": [
+            "borehole_id"
+          ]
+        },
+        {
+          "name": "ix_strata_soil_type",
+          "unique": false,
+          "columns": [
+            "soil_type"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    },
+    {
+      "name": "users",
+      "description": "서비스 사용자와 전역 권한",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": true,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(255)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": true,
+          "indexed": true,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "hashed_password",
+          "type": "VARCHAR(255)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "role",
+          "type": "VARCHAR(8)",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "UserRole.DESIGNER",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "full_name",
+          "type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "is_active",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "True",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME",
+          "nullable": false,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": "now()",
+          "foreign_keys": [],
+          "description": null
+        },
+        {
+          "name": "deleted_at",
+          "type": "DATETIME",
+          "nullable": true,
+          "primary_key": false,
+          "unique": false,
+          "indexed": false,
+          "default": null,
+          "foreign_keys": [],
+          "description": null
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ix_users_email",
+          "unique": true,
+          "columns": [
+            "email"
+          ]
+        }
+      ],
+      "unique_constraints": []
+    }
+  ]
+}

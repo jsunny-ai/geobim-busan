@@ -1,0 +1,49 @@
+/* GeoBIM Stratum 공유 디자인 토큰 — Stone + Cool Gray 라이트 테마
+ * 각 사이트의 src/index.css 에서 @import 로 사용
+ * 사이트의 index.css 가 @tailwind 지시문 + @layer base 를 별도로 처리
+ */
+
+:root {
+  --background: 40 20% 97%;
+  --foreground: 20 14% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14% 11%;
+  --primary: 38 6% 82%;
+  --primary-foreground: 20 14% 11%;
+  --secondary: 35 10% 91%;
+  --secondary-foreground: 20 14% 11%;
+  --muted: 35 10% 91%;
+  --muted-foreground: 25 8% 44%;
+  --accent: 35 8% 88%;
+  --accent-foreground: 20 14% 11%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 35 10% 87%;
+  --input: 35 10% 87%;
+  --ring: 38 6% 74%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222 47% 11%;
+  --foreground: 210 40% 98%;
+  --card: 217 33% 17%;
+  --card-foreground: 210 40% 98%;
+  --popover: 217 33% 17%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222 47% 11%;
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 217 33% 22%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 33% 22%;
+  --input: 217 33% 22%;
+  --ring: 212.7 26.8% 83.9%;
+}

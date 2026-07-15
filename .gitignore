@@ -1,0 +1,175 @@
+# ============================================================================
+# GeoBIM Stratum Platform - .gitignore
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+!**/src/lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# uv.lock is tracked for reproducible backend installs.
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# mypy / ruff
+.mypy_cache/
+.ruff_cache/
+
+# ---------------------------------------------------------------------------
+# Node / Frontend
+# ---------------------------------------------------------------------------
+node_modules/
+.pnpm-store/
+dist/
+dist-ssr/
+.vite/
+.vite-cache/
+.vite-cache2/
+*.local
+
+# pnpm-lock.yaml files are tracked. package-lock.json is ignored because pnpm is
+# the canonical package manager for frontend sites.
+
+# ---------------------------------------------------------------------------
+# IDE / Editor
+# ---------------------------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---------------------------------------------------------------------------
+# OS
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------------------
+# Environment files
+# ---------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ---------------------------------------------------------------------------
+# Data files
+# ---------------------------------------------------------------------------
+# Raw PDFs, HWP/HWPX, DOCX, CSV, JSON, local tile caches, and other extracted
+# data should stay local unless explicitly promoted into docs or seed fixtures.
+**/data/
+backend/seeds/data/
+*.pdf
+*.hwpx
+*.hwp
+*.docx
+
+# Allow explicitly curated PDFs under docs.
+!docs/**/*.pdf
+
+backend/seeds/data/*.csv
+backend/seeds/data/*.json
+**/dump_*.csv
+**/dump_*.json
+
+# ---------------------------------------------------------------------------
+# Docker volume data
+# ---------------------------------------------------------------------------
+volumes/
+postgres_data/
+redis_data/
+
+# ---------------------------------------------------------------------------
+# Logs
+# ---------------------------------------------------------------------------
+*.log
+logs/
+
+# ---------------------------------------------------------------------------
+# Alembic
+# ---------------------------------------------------------------------------
+# Migration files under alembic/versions are source code and should be tracked.
+
+# Test project folder
+test_project/
+
+# Local environment, database, scratch, and build cache overrides
+backend/.venv-codex/
+backend/app.db
+*.tsbuildinfo
+backend/scratch_*.py
+backend/all_projects_count.txt
+backend/proj20_all_strata.txt
+backend/project_check_results.txt
+strata_check.txt
+tmp/
+
+# Phase 1 backups and temporary launchers
+frontend.phase1-backup/
+_launcher/
+
+# Debug leftovers
+backend/cookies.txt
+backend/tile.jpg
+backend/test_tile.py
+backend/run_diagnose.bat
+
+# Database backups
+backend/db_backups/
+backend/*.dump
+/backend/*.dump
+/backend/*.db
+
+# ---------------------------------------------------------------------------
+# Wiki
+# ---------------------------------------------------------------------------
+# Local wiki export/index data. Do not upload to GitHub.
+wiki/
+/wiki/
+
+# Local diagnostic output and one-off reports
+/*_report.txt
+/backend/*_out.txt
+/backend/*_report.txt
+/backend/backend_startup.log
+
+# Package manager policy: pnpm is canonical for frontend sites
+/sites/*/package-lock.json
