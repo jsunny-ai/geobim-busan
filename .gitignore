@@ -173,3 +173,9 @@ wiki/
 
 # Package manager policy: pnpm is canonical for frontend sites
 /sites/*/package-lock.json
+
+# geobim-busan: 반입한 부산역 데이터·문서는 추적한다 (루트 예외).
+!/data/
+!/data/**
+!/docs/wiki/
+!/docs/wiki/**

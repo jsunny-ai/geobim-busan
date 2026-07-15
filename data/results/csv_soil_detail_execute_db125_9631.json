@@ -1,0 +1,41 @@
+{
+  "started_at": "2026-07-11T00:50:21.510322",
+  "execute": true,
+  "project_id": 9718,
+  "source_file": "/app/pdf_convert/data/00_source/csv_uploads/cba788a13a4b4644b4bda00c4c01b18a/DB_125.csv",
+  "successes": [
+    {
+      "job_id": 9631,
+      "project_id": 9718,
+      "source_file": "/app/pdf_convert/data/00_source/csv_uploads/cba788a13a4b4644b4bda00c4c01b18a/DB_125.csv",
+      "borehole_count": 125,
+      "row_count": 660,
+      "soil_detail_counts": {
+        "매립토": 125,
+        "퇴적모래": 55,
+        "퇴적자갈": 69,
+        "풍화토": 119,
+        "풍화암": 88,
+        "연암": 100,
+        "경암": 9,
+        "퇴적점토": 95
+      },
+      "issues": [
+        "BH-4: 두께합(16.4) ≠ 시추심도(15.4) [Δ-1.0]"
+      ],
+      "persisted": {
+        "borehole_count": 125,
+        "created_borehole_count": 0,
+        "linked_borehole_count": 0,
+        "replaced_borehole_count": 125,
+        "duplicate_count": 0,
+        "stratum_count": 660,
+        "groundwater_observation_count": 124
+      }
+    }
+  ],
+  "skipped": [],
+  "failures": [],
+  "total_jobs": 1,
+  "finished_at": "2026-07-11T00:50:22.355005"
+}
